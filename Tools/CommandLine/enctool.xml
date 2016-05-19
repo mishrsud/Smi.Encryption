@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>enctool</name>
+    </assembly>
+    <members>
+        <member name="T:Smi.Encryption.CommandLine.CredCommand">
+            <summary> A command to generate API Key and secret </summary>
+            <seealso cref="T:MGR.CommandLineParser.Command.CommandBase" />
+        </member>
+        <member name="M:Smi.Encryption.CommandLine.CredCommand.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Smi.Encryption.CommandLine.CredCommand"/> class.
+            </summary>
+        </member>
+        <member name="M:Smi.Encryption.CommandLine.CredCommand.ExecuteCommand">
+            <summary> Creates a set of API Key and Secret on each call. </summary>
+            <returns>
+            Return 0 is everything was right, an negative error code otherwise.
+            </returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Smi.Encryption.CommandLine.CredCommand.GetBase64Header(System.String,System.String)">
+            <summary> Gets the Base64 encoded header. </summary>
+            <param name="apiKey">The API key.</param>
+            <param name="apiSecret">The API secret.</param>
+        </member>
+        <member name="M:Smi.Encryption.CommandLine.CredCommand.GetSqlTemplate">
+            <summary> Gets the SQL template from the configured template file. </summary>
+            <remarks>
+            location of template file comes from app.config appSettings key command.templateFileName
+            If this key is not found, we default to a file called ApiCredentialInsert.sql placed in the running 
+            directory of the exe
+            </remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Smi.Encryption.CommandLine.CredCommand.InitializeAppSettings">
+            <summary> Initializes the application settings. </summary>
+        </member>
+        <member name="M:Smi.Encryption.CommandLine.CredCommand.GetRunningDirectory">
+            <summary> Gets the running directory. </summary>
+        </member>
+        <member name="T:Smi.Encryption.CommandLine.CryptoCommand">
+            <summary> Represents a command that can perform encryption and decryption </summary>
+            <seealso cref="T:MGR.CommandLineParser.Command.CommandBase" />
+        </member>
+        <member name="P:Smi.Encryption.CommandLine.CryptoCommand.Option">
+            <summary> Gets or sets the option that determines the operation to perform. </summary>
+        </member>
+        <member name="P:Smi.Encryption.CommandLine.CryptoCommand.Text">
+            <summary> Gets or sets the text. </summary>
+        </member>
+        <member name="P:Smi.Encryption.CommandLine.CryptoCommand.Entropy">
+            <summary> Gets or sets the entropy. </summary>
+        </member>
+        <member name="M:Smi.Encryption.CommandLine.CryptoCommand.ExecuteCommand">
+            <summary> Executes the command. </summary>
+            <returns> Return 0 is everything was right, an negative error code otherwise. </returns>
+        </member>
+    </members>
+</doc>

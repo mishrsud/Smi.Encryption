@@ -1,0 +1,1820 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MGR.CommandLineParser</name>
+    </assembly>
+    <members>
+        <member name="T:MGR.CommandLineParser.AssemblyProviderBase">
+            <summary>
+            Base class for providing all files (*.dll and *.exe) in the current folder (recursive or not).
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.AssemblyProviderBase.SearchOption">
+            <summary>
+            Gets the recursivity options for browsing the current folder.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.AssemblyProviderBase.GetFilesToLoad">
+            <inheritdoc />
+        </member>
+        <member name="M:MGR.CommandLineParser.AssemblyProviderBase.GetAssembliesToBrowse">
+            <inheritdoc />
+        </member>
+        <member name="T:MGR.CommandLineParser.CommandLineParserException">
+            <summary>
+            Exception thrown by the parser if a technical errors occurs.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.CommandLineParserException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MGR.CommandLineParser.CommandLineParserException"/> class.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.CommandLineParserException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MGR.CommandLineParser.CommandLineParserException"/> class with a specified error message.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+        </member>
+        <member name="M:MGR.CommandLineParser.CommandLineParserException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MGR.CommandLineParser.CommandLineParserException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The <see cref="T:System.Exception"/>  that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="M:MGR.CommandLineParser.CommandLineParserException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MGR.CommandLineParser.CommandLineParserException"/> class with serialized data.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">The info parameter is null.</exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is null or System.Exception.HResult is zero (0).</exception>
+        </member>
+        <member name="T:MGR.CommandLineParser.CommandType">
+            <summary>
+                Represents a type of command.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.CommandType.#ctor(System.Type,System.Collections.Generic.IEnumerable{MGR.CommandLineParser.Converters.IConverter})">
+            <summary>
+            Creates a new <see cref="T:MGR.CommandLineParser.CommandType"/>.
+            </summary>
+            <param name="commandType">The type of the command.</param>
+            <param name="converters">The converters.</param>
+        </member>
+        <member name="P:MGR.CommandLineParser.CommandType.Type">
+            <summary>
+                Gets the type of the command.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.CommandType.Metadata">
+            <summary>
+            Gets the name of the command.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.CommandType.Options">
+            <summary>
+            Gets the option of the command type.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.CommandType.CreateCommand(MGR.CommandLineParser.IDependencyResolverScope,MGR.CommandLineParser.IParserOptions)">
+            <summary>
+            Create the command from its type.
+            </summary>
+            <param name="dependencyResolver">The scoped dependendy resolver.</param>
+            <param name="parserOptions">The options of the current parser.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.CommandResultCode">
+            <summary>
+            Built-in list of result code.
+            </summary>
+        </member>
+        <member name="F:MGR.CommandLineParser.CommandResultCode.Ok">
+            <summary>
+            The parsing and the option's validation was fine.
+            </summary>
+        </member>
+        <member name="F:MGR.CommandLineParser.CommandResultCode.NoArgs">
+            <summary>
+            The args parameter of the Parse command is null.
+            </summary>
+        </member>
+        <member name="F:MGR.CommandLineParser.CommandResultCode.NoCommandName">
+            <summary>
+            There is no command name in the command-line.
+            </summary>
+        </member>
+        <member name="F:MGR.CommandLineParser.CommandResultCode.NoCommandFound">
+            <summary>
+            The requested command was not found.
+            </summary>
+        </member>
+        <member name="F:MGR.CommandLineParser.CommandResultCode.CommandParameterNotValid">
+            <summary>
+            The specified parameter for the options of the command are not valid.
+            </summary>
+        </member>
+        <member name="T:MGR.CommandLineParser.CommandResult`1">
+            <summary>
+            Represents the result of the parsing.
+            </summary>
+            <typeparam name="TCommand">The type of the command (defined to a specific type if you call the generic Parse method, <see cref="T:MGR.CommandLineParser.Command.ICommand"/> otherwise).</typeparam>
+        </member>
+        <member name="P:MGR.CommandLineParser.CommandResult`1.Command">
+            <summary>
+            The resulting command.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.CommandResult`1.IsValid">
+            <summary>
+            Defines if the command is in a valid state (parsing/validating the options).
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.CommandResult`1.ReturnCode">
+            <summary>
+            The return code of the parsing.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.CommandResult`1.ValidationResults">
+            <summary>
+            The validation results. If there was no validation errors, the enumeration is empty.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.CommandResult`1.Execute">
+            <summary>
+            Executes the underlying command.
+            </summary>
+            <returns>Returns the result of the Execute method of the command.</returns>
+            <exception cref="T:MGR.CommandLineParser.CommandLineParserException">Thrown if the underlying command is null, or if the command is in an invalid state.</exception>
+        </member>
+        <member name="M:MGR.CommandLineParser.CommandResult`1.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:MGR.CommandLineParser.CommandResult`1.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:MGR.CommandLineParser.CommandResult`1.op_Equality(MGR.CommandLineParser.CommandResult{`0},MGR.CommandLineParser.CommandResult{`0})">
+            <inheritdoc />
+        </member>
+        <member name="M:MGR.CommandLineParser.CommandResult`1.op_Inequality(MGR.CommandLineParser.CommandResult{`0},MGR.CommandLineParser.CommandResult{`0})">
+            <inheritdoc />
+        </member>
+        <member name="T:MGR.CommandLineParser.Command.CommandBase">
+            <summary>
+                Defines an base abstraction for the commands. It adds the implementation of the <seealso cref="P:MGR.CommandLineParser.Command.CommandBase.Arguments" />
+                property, and a
+                <seealso
+                    cref="P:MGR.CommandLineParser.Command.CommandBase.Help" />
+                option.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Command.CommandBase.#ctor">
+            <summary>
+                Initializes a new instance of a <see cref="T:MGR.CommandLineParser.Command.CommandBase" /> .
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandBase.Console">
+            <summary>
+                Gets the console used by the parser (if the command needs to writes something).
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandBase.CurrentDependencyResolverScope">
+            <summary>
+                Gets the <see cref="T:MGR.CommandLineParser.IDependencyResolverScope" /> of the parsing operation.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandBase.ParserOptions">
+            <summary>
+                Gets the <see cref="T:MGR.CommandLineParser.IParserOptions" /> of the parser.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandBase.CommandType">
+            <summary>
+                Gets the <see cref="P:MGR.CommandLineParser.Command.CommandBase.CommandType" /> of the command.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandBase.Help">
+            <summary>
+                Gets or sets the indicator for showing the help of the command.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandBase.Arguments">
+            <summary>
+                The list of arguments of the command.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Command.CommandBase.Execute">
+            <summary>
+                Executes the command.
+            </summary>
+            <returns> Return 0 is everything was right, an negative error code otherwise. </returns>
+        </member>
+        <member name="M:MGR.CommandLineParser.Command.CommandBase.Configure(MGR.CommandLineParser.IParserOptions,MGR.CommandLineParser.IDependencyResolverScope,MGR.CommandLineParser.CommandType)">
+            <summary>
+                Configure the command with the <see cref="T:MGR.CommandLineParser.IParserOptions" /> and the <see cref="T:MGR.CommandLineParser.IConsole" /> of the parser.
+            </summary>
+            <param name="parserOptions">The <see cref="T:MGR.CommandLineParser.IParserOptions" />.</param>
+            <param name="dependencyResolverScope">The <see cref="T:MGR.CommandLineParser.IDependencyResolverScope" />.</param>
+            <param name="commandType">The <see cref="P:MGR.CommandLineParser.Command.CommandBase.CommandType" /> of the command.</param>
+        </member>
+        <member name="M:MGR.CommandLineParser.Command.CommandBase.ExecuteCommand">
+            <summary>
+                Executes the command.
+            </summary>
+            <returns> Return 0 is everything was right, an negative error code otherwise. </returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.Command.CommandDisplayAttribute">
+            <summary>
+            Defines the description and the usage of the command.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandDisplayAttribute.Description">
+            <summary>
+            Gets or sets the description of the command.
+            </summary>
+            <remarks>If the property <seealso cref="P:MGR.CommandLineParser.Command.CommandDisplayAttribute.ResourceType"/> is not null, this is the name of the resource used to determine the description.</remarks>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandDisplayAttribute.Usage">
+            <summary>
+            Gets or sets the usage of the command.
+            </summary>
+            <remarks>If the property <seealso cref="P:MGR.CommandLineParser.Command.CommandDisplayAttribute.ResourceType"/> is not null, this is the name of the resource used to determine the usage.</remarks>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandDisplayAttribute.ResourceType">
+            <summary>
+            The type of the resource used to determine the values.
+            </summary>
+        </member>
+        <member name="T:MGR.CommandLineParser.Command.CommandMetadata">
+            <summary>
+                Represents the metadata of a command.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandMetadata.Name">
+            <summary>
+                Gets the name of the command.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandMetadata.Description">
+            <summary>
+                Gets the description of the command (if defined).
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandMetadata.Usage">
+            <summary>
+                Gets the usage of the command (if defined).
+            </summary>
+        </member>
+        <member name="T:MGR.CommandLineParser.Command.CommandOption">
+            <summary>
+                Represents an option of a command.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandOption.DisplayInfo">
+            <summary>
+                Gets the display informations of the option.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandOption.IsRequired">
+            <summary>
+                Gets the indication that the option is required.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandOption.Converter">
+            <summary>
+                Gets the converter for the option.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandOption.PropertyOption">
+            <summary>
+                Gets the <see cref="T:System.Reflection.PropertyInfo" /> that represents the option.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandOption.CommandMetadata">
+            <summary>
+                Gets the command to which the option relates.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandOption.DefaultValue">
+            <summary>
+                Gets the default value of the option.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.CommandOption.OptionType">
+            <summary>
+                Gets the underlying type of the option.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Command.CommandOption.ConvertValue(System.Object)">
+            <summary>
+                Convert a value to the expected type of the option.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.Command.ConverterAttribute">
+            <summary>
+            Defines the converter type for a dictionary property.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Command.ConverterAttribute.#ctor(System.Type)">
+            <summary>
+            Initializes a new instance of a <see cref="T:MGR.CommandLineParser.Command.ConverterAttribute"/> with the converter type.
+            </summary>
+            <param name="converterType"></param>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.ConverterAttribute.ConverterType">
+            <summary>
+            Gets the type of the converter.
+            </summary>
+        </member>
+        <member name="T:MGR.CommandLineParser.Command.ConverterKeyValueAttribute">
+            <summary>
+            Defines the key and the value converter types for a dictionary property.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Command.ConverterKeyValueAttribute.#ctor(System.Type)">
+            <summary>
+            Initializes a new instance of a <see cref="T:MGR.CommandLineParser.Command.ConverterKeyValueAttribute"/> with the value converter type.
+            </summary>
+            <param name="valueConverterType">The type of the value converter.</param>
+            <remarks>The key's converter is supposed to be the <see cref="T:MGR.CommandLineParser.Converters.StringConverter"/>.</remarks>
+        </member>
+        <member name="M:MGR.CommandLineParser.Command.ConverterKeyValueAttribute.#ctor(System.Type,System.Type)">
+            <summary>
+            Initializes a new instance of a <see cref="T:MGR.CommandLineParser.Command.ConverterKeyValueAttribute"/> with the value and the key converter types.
+            </summary>
+            <param name="valueConverterType">The type of the value converter.</param>
+            <param name="keyConverterType">The type of the key converter.</param>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.ConverterKeyValueAttribute.KeyConverterType">
+            <summary>
+            Gets the type of the key converter.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.ConverterKeyValueAttribute.ValueConverterType">
+            <summary>
+            Gets the type of the value converter.
+            </summary>
+        </member>
+        <member name="T:MGR.CommandLineParser.Command.HelpCommand">
+            <summary>
+                Defines the default implementation of the <see cref="T:MGR.CommandLineParser.Command.HelpCommand" />.
+            </summary>
+        </member>
+        <member name="F:MGR.CommandLineParser.Command.HelpCommand.Name">
+            <summary>
+                Name of the help command.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.HelpCommand.All">
+            <summary>
+                Show detailled help for all commands.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Command.HelpCommand.WriteHelp(MGR.CommandLineParser.CommandType)">
+            <summary>
+                Writes help for the specified command. If the command is null, lists all available commands.
+            </summary>
+            <param name="commandType">The <see cref="T:MGR.CommandLineParser.Command.ICommand" />.</param>
+        </member>
+        <member name="M:MGR.CommandLineParser.Command.HelpCommand.ExecuteCommand">
+            <summary>
+                Executes the command.
+            </summary>
+            <returns>Return 0 is everything was right, an negative error code otherwise.</returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.Command.ICommand">
+            <summary>
+            Defines a command.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Command.ICommand.Execute">
+            <summary>
+            Executes the command.
+            </summary>
+            <returns>Return 0 is everything was right, an negative error code otherwise.</returns>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.ICommand.Arguments">
+            <summary>
+            The list of arguments of the command.
+            </summary>
+        </member>
+        <member name="T:MGR.CommandLineParser.Command.IgnoreOptionPropertyAttribute">
+            <summary>
+            Ignore the property as option.
+            </summary>
+        </member>
+        <member name="T:MGR.CommandLineParser.Command.SampleCommandAttribute">
+            <summary>
+                Defines samples for the command.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.SampleCommandAttribute.Samples">
+            <summary>
+                Gets or sets the samples for the command.
+            </summary>
+        </member>
+        <member name="T:MGR.CommandLineParser.Command.ConverterAttributeExtensions">
+            <summary>
+            Extensions methods for the types <see cref="T:MGR.CommandLineParser.Command.ConverterAttribute"/> and <see cref="T:MGR.CommandLineParser.Command.ConverterKeyValueAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Command.ConverterAttributeExtensions.BuildConverter(MGR.CommandLineParser.Command.ConverterAttribute)">
+            <summary>
+            Creates a new instance of the <see cref="T:MGR.CommandLineParser.Converters.IConverter"/> specified by the <see cref="T:MGR.CommandLineParser.Command.ConverterAttribute"/>.
+            </summary>
+            <param name="source">The <see cref="T:MGR.CommandLineParser.Command.ConverterAttribute"/>.</param>
+            <returns>A new instance of the <see cref="T:MGR.CommandLineParser.Converters.IConverter"/>.</returns>
+        </member>
+        <member name="M:MGR.CommandLineParser.Command.ConverterAttributeExtensions.BuildKeyConverter(MGR.CommandLineParser.Command.ConverterKeyValueAttribute)">
+            <summary>
+            Creates a new instance of the key <see cref="T:MGR.CommandLineParser.Converters.IConverter"/> specified by the <see cref="T:MGR.CommandLineParser.Command.ConverterKeyValueAttribute"/>.
+            </summary>
+            <param name="source">The <see cref="T:MGR.CommandLineParser.Command.ConverterKeyValueAttribute"/>.</param>
+            <returns>A new instance of the <see cref="T:MGR.CommandLineParser.Converters.IConverter"/>.</returns>
+        </member>
+        <member name="M:MGR.CommandLineParser.Command.ConverterAttributeExtensions.BuildValueConverter(MGR.CommandLineParser.Command.ConverterKeyValueAttribute)">
+            <summary>
+            Creates a new instance of the value <see cref="T:MGR.CommandLineParser.Converters.IConverter"/> specified by the <see cref="T:MGR.CommandLineParser.Command.ConverterKeyValueAttribute"/>.
+            </summary>
+            <param name="source">The <see cref="T:MGR.CommandLineParser.Command.ConverterKeyValueAttribute"/>.</param>
+            <returns>A new instance of the <see cref="T:MGR.CommandLineParser.Converters.IConverter"/>.</returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.Command.OptionDisplayInfo">
+            <summary>
+            Represents the display information of an option.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.OptionDisplayInfo.Name">
+            <summary>
+            Gets the name of the option.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.OptionDisplayInfo.ShortName">
+            <summary>
+            Gets the shortname of the option.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Command.OptionDisplayInfo.Description">
+            <summary>
+            Gets the description of the option.
+            </summary>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.BooleanConverter">
+            <summary>
+                Converter for the type <see cref="T:System.Boolean" /> .
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.BooleanConverter.TargetType">
+            <summary>
+                The target type of the converter ( <see cref="T:System.Boolean" /> )..
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.BooleanConverter.Convert(System.String,System.Type)">
+            <summary>
+                Convert the <paramref name="value" /> to an instance of <see cref="T:System.Boolean" /> .
+            </summary>
+            <param name="value"> The original value provided by the user. </param>
+            <param name="concreteTargetType"> Not used. </param>
+            <returns> The <see cref="T:System.Boolean" /> converted from the value. </returns>
+            <remarks>
+                The value can be '-', 'False' or 'false' to specify false, '+', 'True' or 'true' to specify true.
+            </remarks>
+            <exception cref="T:MGR.CommandLineParser.CommandLineParserException">
+                Thrown if the
+                <paramref name="value" />
+                is not valid.
+            </exception>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.ByteConverter">
+            <summary>
+              Converter for the type <see cref="T:System.Byte" /> .
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.ByteConverter.TargetType">
+            <summary>
+              The target type of the converter ( <see cref="T:System.Byte" /> )..
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.ByteConverter.Convert(System.String,System.Type)">
+            <summary>
+              Convert the <paramref name="value" /> to an instance of <see cref="T:System.Byte" /> .
+            </summary>
+            <param name="value"> The original value provided by the user. </param>
+            <param name="concreteTargetType"> Not used. </param>
+            <returns> The <see cref="T:System.Byte" /> converted from the value. </returns>
+            <exception cref="T:MGR.CommandLineParser.CommandLineParserException">Thrown if the
+              <paramref name="value" />
+              is not valid.</exception>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.CharConverter">
+            <summary>
+              Converter for the type <see cref="T:System.Char" /> .
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.CharConverter.TargetType">
+            <summary>
+              The target type of the converter ( <see cref="T:System.Char" /> )..
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.CharConverter.Convert(System.String,System.Type)">
+            <summary>
+              Convert the <paramref name="value" /> to an instance of <see cref="T:System.Char" /> .
+            </summary>
+            <param name="value"> The original value provided by the user. </param>
+            <param name="concreteTargetType"> Not used. </param>
+            <returns> The <see cref="T:System.Char" /> converted from the value. </returns>
+            <exception cref="T:MGR.CommandLineParser.CommandLineParserException">Thrown if the
+              <paramref name="value" />
+              is not valid.</exception>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.DateTimeConverter">
+            <summary>
+              Converter for the type <see cref="T:System.DateTime" /> .
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.DateTimeConverter.TargetType">
+            <summary>
+              The target type of the converter ( <see cref="T:System.DateTime" /> )..
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.DateTimeConverter.Convert(System.String,System.Type)">
+            <summary>
+              Convert the <paramref name="value" /> to an instance of <see cref="T:System.DateTime" /> .
+            </summary>
+            <param name="value"> The original value provided by the user. </param>
+            <param name="concreteTargetType"> Not used. </param>
+            <returns> The <see cref="T:System.DateTime" /> converted from the value. </returns>
+            <exception cref="T:MGR.CommandLineParser.CommandLineParserException">Thrown if the
+              <paramref name="value" />
+              is not valid.</exception>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.DecimalConverter">
+            <summary>
+              Converter for the type <see cref="T:System.Decimal" /> .
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.DecimalConverter.TargetType">
+            <summary>
+              The target type of the converter ( <see cref="T:System.Decimal" /> )..
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.DecimalConverter.Convert(System.String,System.Type)">
+            <summary>
+              Convert the <paramref name="value" /> to an instance of <see cref="T:System.Decimal" /> .
+            </summary>
+            <param name="value"> The original value provided by the user. </param>
+            <param name="concreteTargetType"> Not used. </param>
+            <returns> The <see cref="T:System.Decimal" /> converted from the value. </returns>
+            <exception cref="T:MGR.CommandLineParser.CommandLineParserException">Thrown if the
+              <paramref name="value" />
+              is not valid.</exception>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.DoubleConverter">
+            <summary>
+              Converter for the type <see cref="T:System.Double" /> .
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.DoubleConverter.TargetType">
+            <summary>
+              The target type of the converter ( <see cref="T:System.Double" /> )..
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.DoubleConverter.Convert(System.String,System.Type)">
+            <summary>
+              Convert the <paramref name="value" /> to an instance of <see cref="T:System.Double" /> .
+            </summary>
+            <param name="value"> The original value provided by the user. </param>
+            <param name="concreteTargetType"> Not used. </param>
+            <returns> The <see cref="T:System.Double" /> converted from the value. </returns>
+            <exception cref="T:MGR.CommandLineParser.CommandLineParserException">Thrown if the
+              <paramref name="value" />
+              is not valid.</exception>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.EnumConverter">
+            <summary>
+              Converter for the type <see cref="T:System.Enum" /> .
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.EnumConverter.TargetType">
+            <summary>
+              The target type of the converter ( <see cref="T:System.Enum" /> )..
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.EnumConverter.Convert(System.String,System.Type)">
+            <summary>
+              Convert the <paramref name="value" /> to an instance of <see cref="T:System.Enum" /> .
+            </summary>
+            <param name="value"> The original value provided by the user. </param>
+            <param name="concreteTargetType"> The concrete enum type. </param>
+            <returns> The <see cref="T:System.Enum" /> converted from the value. </returns>
+            <exception cref="T:MGR.CommandLineParser.CommandLineParserException">Thrown if the
+              <paramref name="value" />
+              is not valid or if
+              <paramref name="concreteTargetType" />
+              is not an enum.</exception>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.FileSystemInfoConverter">
+            <summary>
+                Converter for the type <see cref="T:System.IO.FileSystemInfo" /> .
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.FileSystemInfoConverter.TargetType">
+            <summary>
+                The target type for the converter (<see cref="T:System.IO.FileSystemInfo" />).
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.FileSystemInfoConverter.Convert(System.String,System.Type)">
+            <summary>
+                Converts the <paramref name="value" /> to an instnace of <see cref="T:System.IO.FileInfo" /> or <see cref="T:System.IO.DirectoryInfo" />.
+            </summary>
+            <param name="value">The original value provided by the user.</param>
+            <param name="concreteTargetType">Not used.</param>
+            <returns>The <see cref="T:System.IO.FileInfo" /> or <see cref="T:System.IO.DirectoryInfo" />.</returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.GuidConverter">
+            <summary>
+              Converter for the type <see cref="T:System.Guid" /> .
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.GuidConverter.TargetType">
+            <summary>
+              The target type of the converter ( <see cref="T:System.Guid" /> )..
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.GuidConverter.Convert(System.String,System.Type)">
+            <summary>
+              Convert the <paramref name="value" /> to an instance of <see cref="T:System.Guid" /> .
+            </summary>
+            <param name="value"> The original value provided by the user. </param>
+            <param name="concreteTargetType"> Not used. </param>
+            <returns> The <see cref="T:System.Guid" /> converted from the value. </returns>
+            <exception cref="T:MGR.CommandLineParser.CommandLineParserException">Thrown if the
+              <paramref name="value" />
+              is not valid.</exception>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.IConverter">
+            <summary>
+            Define a converter
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.IConverter.TargetType">
+            <summary>
+            The target type of the converter.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.IConverter.Convert(System.String,System.Type)">
+            <summary>
+            Convert the <paramref name="value"/> to an instance of <paramref name="concreteTargetType"/>.
+            </summary>
+            <param name="value">The original value provided by the user.</param>
+            <param name="concreteTargetType">The concrete type expected by the option.</param>
+            <returns>The converted value.</returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.Int16Converter">
+            <summary>
+              Converter for the type <see cref="T:System.Int16" /> .
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.Int16Converter.TargetType">
+            <summary>
+              The target type of the converter ( <see cref="T:System.Int16" /> )..
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.Int16Converter.Convert(System.String,System.Type)">
+            <summary>
+              Convert the <paramref name="value" /> to an instance of <see cref="T:System.Int16" /> .
+            </summary>
+            <param name="value"> The original value provided by the user. </param>
+            <param name="concreteTargetType"> Not used. </param>
+            <returns> The <see cref="T:System.Int16" /> converted from the value. </returns>
+            <exception cref="T:MGR.CommandLineParser.CommandLineParserException">Thrown if the
+              <paramref name="value" />
+              is not valid.</exception>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.Int32Converter">
+            <summary>
+            Converter for the type <see cref="T:System.Int32"/>.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.Int32Converter.TargetType">
+            <summary>
+            The target type of the converter (<see cref="T:System.Int32"/>)..
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.Int32Converter.Convert(System.String,System.Type)">
+            <summary>
+            Convert the <paramref name="value"/> to an instance of <see cref="T:System.Int32"/>.
+            </summary>
+            <param name="value">The original value provided by the user.</param>
+            <param name="concreteTargetType">Not used.</param>
+            <returns>The <see cref="T:System.Int32"/> converted from the value.</returns>
+            <exception cref="T:MGR.CommandLineParser.CommandLineParserException">Thrown if the <paramref name="value"/> is not valid.</exception>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.Int64Converter">
+            <summary>
+            Converter for the type <see cref="T:System.Int64"/>.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.Int64Converter.TargetType">
+            <summary>
+            The target type of the converter (<see cref="T:System.Int64"/>)..
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.Int64Converter.Convert(System.String,System.Type)">
+            <summary>
+            Convert the <paramref name="value"/> to an instance of <see cref="T:System.Int64"/>.
+            </summary>
+            <param name="value">The original value provided by the user.</param>
+            <param name="concreteTargetType">Not used.</param>
+            <returns>The <see cref="T:System.Int64"/> converted from the value.</returns>
+            <exception cref="T:MGR.CommandLineParser.CommandLineParserException">Thrown if the <paramref name="value"/> is not valid.</exception>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.SingleConverter">
+            <summary>
+            Converter for the type <see cref="T:System.Single"/>.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.SingleConverter.TargetType">
+            <summary>
+            The target type of the converter (<see cref="T:System.Single"/>)..
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.SingleConverter.Convert(System.String,System.Type)">
+            <summary>
+            Convert the <paramref name="value"/> to an instance of <see cref="T:System.Single"/>.
+            </summary>
+            <param name="value">The original value provided by the user.</param>
+            <param name="concreteTargetType">Not used.</param>
+            <returns>The <see cref="T:System.Single"/> converted from the value.</returns>
+            <exception cref="T:MGR.CommandLineParser.CommandLineParserException">Thrown if the <paramref name="value"/> is not valid.</exception>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.StringConverter">
+            <summary>
+            Converter for the type <see cref="T:System.String"/>.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.StringConverter.TargetType">
+            <summary>
+            The target type of the converter (<see cref="T:System.String"/>).
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.StringConverter.Convert(System.String,System.Type)">
+            <summary>
+            Convert the <paramref name="value"/> to an instance of <see cref="T:System.String"/>.
+            </summary>
+            <param name="value">The original value provided by the user.</param>
+            <param name="concreteTargetType">Not used.</param>
+            <returns>The <see cref="T:System.String"/> converted from the value.</returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.TimeSpanConverter">
+            <summary>
+            Converter for the type <see cref="T:System.TimeSpan"/>.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.TimeSpanConverter.TargetType">
+            <summary>
+            The target type of the converter (<see cref="T:System.TimeSpan"/>).
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.TimeSpanConverter.Convert(System.String,System.Type)">
+            <summary>
+            Convert the <paramref name="value"/> to an instance of <see cref="T:System.TimeSpan"/>.
+            </summary>
+            <param name="value">The original value provided by the user.</param>
+            <param name="concreteTargetType">Not used.</param>
+            <returns>The <see cref="T:System.TimeSpan"/> converted from the value.</returns>
+            <exception cref="T:MGR.CommandLineParser.CommandLineParserException">Thrown if the <paramref name="value"/> is not valid.</exception>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.UriConverter">
+            <summary>
+            Converter for the type <see cref="T:System.Uri"/>.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Converters.UriConverter.TargetType">
+            <summary>
+            The target type of the converter (<see cref="T:System.Uri"/>)..
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.UriConverter.Convert(System.String,System.Type)">
+            <summary>
+            Convert the <paramref name="value"/> to an instance of <see cref="T:System.Uri"/>.
+            </summary>
+            <param name="value">The original value provided by the user.</param>
+            <param name="concreteTargetType">Not used.</param>
+            <returns>The <see cref="T:System.Uri"/> converted from the value.</returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.Converters.ConverterExtensions">
+            <summary>
+                Extensions methods for the type <see cref="T:MGR.CommandLineParser.Converters.IConverter" />.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Converters.ConverterExtensions.CanConvertTo(MGR.CommandLineParser.Converters.IConverter,System.Type)">
+            <summary>
+                Indicates if the specified <see cref="T:MGR.CommandLineParser.Converters.IConverter" /> can convert to the specified <see cref="T:System.Type" />.
+            </summary>
+            <param name="source">The converter.</param>
+            <param name="targetType">
+                The target <see cref="T:System.Type" />.
+            </param>
+            <returns>
+                true if the <see cref="T:MGR.CommandLineParser.Converters.IConverter" /> can convert, false otherwise.
+            </returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.CurrentDirectoryAssemblyProvider">
+            <summary>
+            Implementation of <see cref="T:MGR.CommandLineParser.IAssemblyProvider"/> for providing all files (*.dll and *.exe) in the current folder not recursivly (this is the current default implementation).
+            </summary>
+        </member>
+        <member name="F:MGR.CommandLineParser.CurrentDirectoryAssemblyProvider.Instance">
+            <summary>
+            Gets the singleton instance of <see cref="T:MGR.CommandLineParser.CurrentDirectoryAssemblyProvider"/>.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.CurrentDirectoryAssemblyProvider.SearchOption">
+            <inheritdoc />
+        </member>
+        <member name="T:MGR.CommandLineParser.DefaultDependencyResolver">
+            <summary>
+                Default implementation of the <see cref="T:MGR.CommandLineParser.IDependencyResolver" />.
+            </summary>
+            <remarks>This implementation uses a simple map to find the service to resolve.</remarks>
+        </member>
+        <member name="M:MGR.CommandLineParser.DefaultDependencyResolver.CreateScope">
+            <inheritdoc />
+        </member>
+        <member name="M:MGR.CommandLineParser.DefaultDependencyResolver.RegisterDependency``1(System.Func{System.Func{MGR.CommandLineParser.IDependencyResolverScope,``0}})">
+            <summary>
+                Register a service.
+            </summary>
+            <typeparam name="T">The type of the contract of the service.</typeparam>
+            <param name="serviceFactory">A factory to get the implementation of the service.</param>
+        </member>
+        <member name="M:MGR.CommandLineParser.DefaultDependencyResolver.RegisterDependencies``1(System.Func{System.Func{MGR.CommandLineParser.IDependencyResolverScope,System.Collections.Generic.IEnumerable{``0}}})">
+            <summary>
+                Register a collection of services.
+            </summary>
+            <typeparam name="T">The type of the contract of the service.</typeparam>
+            <param name="servicesFactory">A factory to get the implementations of the service.</param>
+        </member>
+        <member name="M:MGR.CommandLineParser.DefaultDependencyResolver.RegisterConverter(MGR.CommandLineParser.Converters.IConverter)">
+            <summary>
+                Register a <see cref="T:MGR.CommandLineParser.Converters.IConverter" />.
+            </summary>
+            <param name="converter">The <see cref="T:MGR.CommandLineParser.Converters.IConverter" /> to register.</param>
+            <remarks>Do not overwrite the converter.</remarks>
+        </member>
+        <member name="M:MGR.CommandLineParser.DefaultDependencyResolver.RegisterConverter(MGR.CommandLineParser.Converters.IConverter,System.Boolean)">
+            <summary>
+                Register a <see cref="T:MGR.CommandLineParser.Converters.IConverter" />.
+            </summary>
+            <param name="converter">The <see cref="T:MGR.CommandLineParser.Converters.IConverter" /> to register.</param>
+            <param name="overwriteExisting">
+                <code>true</code> to overwrite an existing <see cref="T:MGR.CommandLineParser.Converters.IConverter" /> for the same
+                target type. <code>false</code> otherwise.
+            </param>
+        </member>
+        <member name="M:MGR.CommandLineParser.DefaultDependencyResolver.RemoveConverter(MGR.CommandLineParser.Converters.IConverter)">
+            <summary>
+                Remove a <see cref="T:MGR.CommandLineParser.Converters.IConverter" />.
+            </summary>
+            <param name="converter">The <see cref="T:MGR.CommandLineParser.Converters.IConverter" /> to remove.</param>
+        </member>
+        <member name="M:MGR.CommandLineParser.DefaultDependencyResolverScope.ResolveDependency``1">
+            <inheritdoc />
+        </member>
+        <member name="M:MGR.CommandLineParser.DefaultDependencyResolverScope.ResolveDependencies``1">
+            <inheritdoc />
+        </member>
+        <member name="T:MGR.CommandLineParser.IAssemblyProvider">
+            <summary>
+            Defines the contract for the provider of assemblies to load, used by <see cref="T:MGR.CommandLineParser.AssemblyBrowsingCommandTypeProvider"/>.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.IAssemblyProvider.GetAssembliesToBrowse">
+            <summary>
+            Returns the list of the files to load.
+            </summary>
+            <returns>A list of path.</returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.ICommandActivator">
+            <summary>
+                Defines the contract for the activator of <see cref="T:MGR.CommandLineParser.Command.ICommand" />.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.ICommandActivator.ActivateCommand(System.Type)">
+            <summary>
+                Activates (create an instance) of a <see cref="T:MGR.CommandLineParser.Command.ICommand" />.
+            </summary>
+            <param name="commandType">The type of the command.</param>
+            <returns>The command.</returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.ICommandTypeProvider">
+            <summary>
+                Define a command provider.
+            </summary>
+            <remarks>
+            </remarks>
+        </member>
+        <member name="M:MGR.CommandLineParser.ICommandTypeProvider.GetAllCommandTypes">
+            <summary>
+                Returns all commands types.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.ICommandTypeProvider.GetCommandType(System.String)">
+            <summary>
+                Retrive the <see cref="T:MGR.CommandLineParser.CommandType" /> of the command with the specified <paramref name="commandName" />.
+            </summary>
+            <param name="commandName">The command name.</param>
+            <returns>
+                The <see cref="T:MGR.CommandLineParser.CommandType" /> of the command with the specified <paramref name="commandName" /> or null if
+                the command's type is not found.
+            </returns>
+        </member>
+        <member name="M:MGR.CommandLineParser.ICommandTypeProvider.GetCommandType``1">
+            <summary>
+            Retrive the <see cref="T:MGR.CommandLineParser.CommandType" /> of the command of the specified <typeparamref name="TCommand"/>.
+            </summary>
+            <typeparam name="TCommand">The type of the command.</typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.IConsole">
+            <summary>
+            Defines e console to log the parser activity.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.IConsole.Write(System.String,System.Object[])">
+            <summary>
+            Writes the value representation of the specified array of objects to the standard output stream using the specified format information.
+            </summary>
+            <param name="format">A composite format string.</param>
+            <param name="args">An array of objects to write using <paramref name="format"/>.</param>
+        </member>
+        <member name="M:MGR.CommandLineParser.IConsole.WriteLine">
+            <summary>
+            Writes the current line terminator.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.IConsole.WriteLine(System.String)">
+            <summary>
+            Writes the specified string value, followed by the current line terminator to the standard output stream .
+            </summary>
+            <param name="value">The value to write. </param>
+        </member>
+        <member name="M:MGR.CommandLineParser.IConsole.WriteLine(System.String,System.Object[])">
+            <summary>
+            Writes the value representation of the specified array of objects, followed by the current line terminator, to the standard output stream using the specified format information.
+            </summary>
+            <param name="format">A composite format string.</param>
+            <param name="args">An array of objects to write using <paramref name="format"/>.</param>
+        </member>
+        <member name="M:MGR.CommandLineParser.IConsole.WriteError(System.String)">
+            <summary>
+            Writes the specified string value, followed by the current line terminator to the error output stream .
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:MGR.CommandLineParser.IConsole.WriteError(System.String,System.Object[])">
+            <summary>
+            Writes the value representation of the specified array of objects, followed by the current line terminator, to the error output stream using the specified format information.
+            </summary>
+            <param name="format">A composite format string.</param>
+            <param name="args">An array of objects to write using <paramref name="format"/>.</param>
+        </member>
+        <member name="M:MGR.CommandLineParser.IConsole.WriteWarning(System.String)">
+            <summary>
+            Writes the specified string value, followed by the current line terminator to the warning output stream .
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:MGR.CommandLineParser.IConsole.WriteWarning(System.String,System.Object[])">
+            <summary>
+            Writes the value representation of the specified array of objects, followed by the current line terminator, to the warning output stream using the specified format information.
+            </summary>
+            <param name="format">A composite format string.</param>
+            <param name="args">An array of objects to write using <paramref name="format"/>.</param>
+        </member>
+        <member name="M:MGR.CommandLineParser.IConsole.PrintJustified(System.Int32,System.String)">
+            <summary>
+            Writes the specified string value, followed by the current line terminator to the standard output stream, justified to the console size, starting at the specified <paramref name="startIndex"/>.
+            </summary>
+            <param name="startIndex"></param>
+            <param name="value"></param>
+        </member>
+        <member name="T:MGR.CommandLineParser.IDependencyResolver">
+            <summary>
+                Represents a dependency injection container.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.IDependencyResolver.CreateScope">
+            <summary>
+                Creates a new resolution scope.
+            </summary>
+            <returns>A new scope</returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.IParser">
+            <summary>
+            Represents a parser.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.IParser.CommandLineName">
+            <summary>
+            Gets the name of the current tools.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.IParser.Logo">
+            <summary>
+            Gets the current logo (name + version) of the current tools.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.IParser.Parse``1(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Parse the supplied arguments for a specific command. The name of the command should not be in the arguments list.
+            </summary>
+            <typeparam name="TCommand">The type of the command.</typeparam>
+            <param name="arguments">The arguments.</param>
+            <returns>The result of the parsing of the arguments.</returns>
+        </member>
+        <member name="M:MGR.CommandLineParser.IParser.Parse(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Parse the supplied arguments.
+            </summary>
+            <param name="arguments">The arguments.</param>
+            <returns>The result of the parsing of the arguments.</returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.IParserOptions">
+            <summary>
+                Defines the options for the parser.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.IParserOptions.Logo">
+            <summary>
+                The logo used in the help by the parser.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.IParserOptions.CommandLineName">
+            <summary>
+                The name of the executable to run used in the help by the parser.
+            </summary>
+        </member>
+        <member name="T:MGR.CommandLineParser.IDependencyResolverScope">
+            <summary>
+            Represents a scope of the dependency injection container.
+            The scope is used within a parsing operation.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.IDependencyResolverScope.ResolveDependency``1">
+            <summary>
+            Resolves singly registred services.
+            </summary>
+            <typeparam name="T">The type of the service to resolve.</typeparam>
+            <returns>The resolved service.</returns>
+        </member>
+        <member name="M:MGR.CommandLineParser.IDependencyResolverScope.ResolveDependencies``1">
+            <summary>
+            Resolves multiply registred services.
+            </summary>
+            <typeparam name="T">The type of the services to resolve.</typeparam>
+            <returns>The resolved services.</returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.ParserBuilder">
+            <summary>
+                Represents the constructor of a parser.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.ParserBuilder.BuildParser">
+            <summary>
+                Creates a new instance of <see cref="T:MGR.CommandLineParser.Parser" /> with the default options.
+            </summary>
+            <returns>A new instance of <see cref="T:MGR.CommandLineParser.Parser" />.</returns>
+        </member>
+        <member name="M:MGR.CommandLineParser.ParserBuilder.Logo(System.String)">
+            <summary>
+                Changes the logo to use when creating the <see cref="T:MGR.CommandLineParser.Parser" />.
+            </summary>
+            <param name="logo">The custom logo</param>
+            <returns>This instance of <see cref="T:MGR.CommandLineParser.ParserBuilder" />.</returns>
+        </member>
+        <member name="M:MGR.CommandLineParser.ParserBuilder.CommandLineName(System.String)">
+            <summary>
+                Changes the command line name to use when creating the <see cref="T:MGR.CommandLineParser.Parser" />.
+            </summary>
+            <param name="commandLineName">The custom command line name</param>
+            <returns>This instance of <see cref="T:MGR.CommandLineParser.ParserBuilder" />.</returns>
+        </member>
+        <member name="P:MGR.CommandLineParser.Parser.Logo">
+            <summary>
+                Gets the logo used by the parser.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Parser.CommandLineName">
+            <summary>
+                Gets the name of the executable to run used in the help by the parser.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.Parser.Parse``1(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+                Parse a command line considering a unique command.
+            </summary>
+            <typeparam name="TCommand">Used this unique type of command.</typeparam>
+            <param name="args">The command line args.</param>
+            <returns>The result of the parsing.</returns>
+        </member>
+        <member name="M:MGR.CommandLineParser.Parser.Parse(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+                Parse a command line.
+            </summary>
+            <param name="args">The command line args.</param>
+            <returns>The result of the parsing.</returns>
+        </member>
+        <member name="T:MGR.CommandLineParser.ParserOptions">
+            <summary>
+                Default implementation of <see cref="T:MGR.CommandLineParser.IParserOptions" />.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.ParserOptions.Logo">
+            <summary>
+                The logo used in the help by the parser.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.ParserOptions.CommandLineName">
+            <summary>
+                The name of the executable to run used in the help by the parser.
+            </summary>
+        </member>
+        <member name="T:MGR.CommandLineParser.Properties.Strings">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Properties.Strings.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Properties.Strings.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Properties.Strings.Command_HelpOption_DescriptionMessage">
+            <summary>
+              Looks up a localized string similar to Help.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Properties.Strings.Command_HelpOption_ShortNameMessage">
+            <summary>
+              Looks up a localized string similar to ?.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Properties.Strings.Console_WarningFormat">
+            <summary>
+              Looks up a localized string similar to WARNING: {0}.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Properties.Strings.HelpCommand_CommandTitleFormat">
+            <summary>
+              Looks up a localized string similar to {0} Command help :.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Properties.Strings.HelpCommand_CommandUsageFormat">
+            <summary>
+              Looks up a localized string similar to Usage: {0} {1} {2}.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Properties.Strings.HelpCommand_GlobalCommandLineCommandFormat">
+            <summary>
+              Looks up a localized string similar to {0} &lt;command&gt;.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Properties.Strings.HelpCommand_GlobalHelp_AvailableCommands">
+            <summary>
+              Looks up a localized string similar to Available commands:.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Properties.Strings.HelpCommand_GlobalHelpCommandUsageFormat">
+            <summary>
+              Looks up a localized string similar to Type &apos;{0} &lt;command&gt;&apos; for help on a specific command..
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Properties.Strings.HelpCommand_GlobalUsageFormat">
+            <summary>
+              Looks up a localized string similar to Usage: {0} [args] [parserOptions].
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Properties.Strings.HelpCommand_OptionsListTitle">
+            <summary>
+              Looks up a localized string similar to Options:.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Properties.Strings.Parser_CommandInvalidArgumentsFormat">
+            <summary>
+              Looks up a localized string similar to Command {0} : invalid arguments :.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.Properties.Strings.ParserOptions_LogoFormat">
+            <summary>
+              Looks up a localized string similar to {0} Version: {1}.
+            </summary>
+        </member>
+        <member name="T:MGR.CommandLineParser.RecursiveAssemblyProvider">
+            <summary>
+            Implementation of <see cref="T:MGR.CommandLineParser.IAssemblyProvider"/> for providing all files (*.dll and *.exe) in the current folder recursivly.
+            </summary>
+        </member>
+        <member name="F:MGR.CommandLineParser.RecursiveAssemblyProvider.Instance">
+            <summary>
+            Gets the singleton instance of <see cref="T:MGR.CommandLineParser.RecursiveAssemblyProvider"/>.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.RecursiveAssemblyProvider.SearchOption">
+            <inheritdoc />
+        </member>
+        <member name="T:MGR.CommandLineParser.DependencyResolver">
+            <summary>
+            Static class that provides and defines the current <see cref="T:MGR.CommandLineParser.IDependencyResolver"/>.
+            </summary>
+        </member>
+        <member name="P:MGR.CommandLineParser.DependencyResolver.Current">
+            <summary>
+            Gets the current <see cref="T:MGR.CommandLineParser.IDependencyResolver"/>.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.DependencyResolver.SetDependencyResolver(MGR.CommandLineParser.IDependencyResolver)">
+            <summary>
+            Defines the current <see cref="T:MGR.CommandLineParser.IDependencyResolver"/>.
+            </summary>
+            <param name="dependencyResolver">The new current <see cref="T:MGR.CommandLineParser.IDependencyResolver"/> (cannot be null).</param>
+        </member>
+        <member name="T:MGR.CommandLineParser.DependencyResolverCommandActivator">
+            <summary>
+            Implementation of <see cref="T:MGR.CommandLineParser.ICommandActivator"/> based on <see cref="T:MGR.CommandLineParser.DependencyResolver"/>.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.DependencyResolverCommandActivator.#ctor">
+            <summary>
+            Creates a new instance of <see cref="T:MGR.CommandLineParser.DependencyResolverCommandActivator"/>.
+            </summary>
+        </member>
+        <member name="M:MGR.CommandLineParser.DependencyResolverCommandActivator.ActivateCommand(System.Type)">
+            <inheritdoc />
+        </member>
+        <member name="T:System.Reflection.PropertyInfoExtensions">
+            <summary>
+            Extensions methods for the type <see cref="T:System.Reflection.PropertyInfo"/>.
+            </summary>
+        </member>
+        <member name="M:System.Reflection.PropertyInfoExtensions.ShouldBeIgnored(System.Reflection.PropertyInfo)">
+            <summary>
+            Indicates if the given <see cref="T:System.Reflection.PropertyInfo"/> should be ignored as option by the parse.
+            </summary>
+            <param name="source">The <see cref="T:System.Reflection.PropertyInfo"/>.</param>
+            <returns>true if the <see cref="T:System.Reflection.PropertyInfo"/> should be ignored, false otherwise.</returns>
+        </member>
+        <member name="T:JetBrains.Annotations.CanBeNullAttribute">
+            <summary>
+            Indicates that the value of the marked element could be <c>null</c> sometimes,
+            so the check for <c>null</c> is necessary before its usage.
+            </summary>
+            <example><code>
+            [CanBeNull] public object Test() { return null; }
+            public void UseTest() {
+              var p = Test();
+              var s = p.ToString(); // Warning: Possible 'System.NullReferenceException'
+            }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.NotNullAttribute">
+            <summary>
+            Indicates that the value of the marked element could never be <c>null</c>.
+            </summary>
+            <example><code>
+            [NotNull] public object Foo() {
+              return null; // Warning: Possible 'null' assignment
+            }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.ItemNotNullAttribute">
+            <summary>
+            Indicates that collection or enumerable value does not contain null elements.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.ItemCanBeNullAttribute">
+            <summary>
+            Indicates that collection or enumerable value can contain null elements.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.StringFormatMethodAttribute">
+            <summary>
+            Indicates that the marked method builds string by format pattern and (optional) arguments.
+            Parameter, which contains format string, should be given in constructor. The format string
+            should be in <see cref="M:System.String.Format(System.IFormatProvider,System.String,System.Object[])"/>-like form.
+            </summary>
+            <example><code>
+            [StringFormatMethod("message")]
+            public void ShowError(string message, params object[] args) { /* do something */ }
+            public void Foo() {
+              ShowError("Failed: {0}"); // Warning: Non-existing argument in format string
+            }
+            </code></example>
+        </member>
+        <member name="M:JetBrains.Annotations.StringFormatMethodAttribute.#ctor(System.String)">
+            <param name="formatParameterName">
+            Specifies which parameter of an annotated method should be treated as format-string
+            </param>
+        </member>
+        <member name="T:JetBrains.Annotations.ValueProviderAttribute">
+            <summary>
+            For a parameter that is expected to be one of the limited set of values.
+            Specify fields of which type should be used as values for this parameter.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.InvokerParameterNameAttribute">
+            <summary>
+            Indicates that the function argument should be string literal and match one
+            of the parameters of the caller function. For example, ReSharper annotates
+            the parameter of <see cref="T:System.ArgumentNullException"/>.
+            </summary>
+            <example><code>
+            public void Foo(string param) {
+              if (param == null)
+                throw new ArgumentNullException("par"); // Warning: Cannot resolve symbol
+            }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.NotifyPropertyChangedInvocatorAttribute">
+             <summary>
+             Indicates that the method is contained in a type that implements
+             <c>System.ComponentModel.INotifyPropertyChanged</c> interface and this method
+             is used to notify that some property value changed.
+             </summary>
+             <remarks>
+             The method should be non-static and conform to one of the supported signatures:
+             <list>
+             <item><c>NotifyChanged(string)</c></item>
+             <item><c>NotifyChanged(params string[])</c></item>
+             <item><c>NotifyChanged{T}(Expression{Func{T}})</c></item>
+             <item><c>NotifyChanged{T,U}(Expression{Func{T,U}})</c></item>
+             <item><c>SetProperty{T}(ref T, T, string)</c></item>
+             </list>
+             </remarks>
+             <example><code>
+             public class Foo : INotifyPropertyChanged {
+               public event PropertyChangedEventHandler PropertyChanged;
+               [NotifyPropertyChangedInvocator]
+               protected virtual void NotifyChanged(string propertyName) { ... }
+            
+               private string _name;
+               public string Name {
+                 get { return _name; }
+                 set { _name = value; NotifyChanged("LastName"); /* Warning */ }
+               }
+             }
+             </code>
+             Examples of generated notifications:
+             <list>
+             <item><c>NotifyChanged("Property")</c></item>
+             <item><c>NotifyChanged(() =&gt; Property)</c></item>
+             <item><c>NotifyChanged((VM x) =&gt; x.Property)</c></item>
+             <item><c>SetProperty(ref myField, value, "Property")</c></item>
+             </list>
+             </example>
+        </member>
+        <member name="T:JetBrains.Annotations.ContractAnnotationAttribute">
+            <summary>
+            Describes dependency between method input and output.
+            </summary>
+            <syntax>
+            <p>Function Definition Table syntax:</p>
+            <list>
+            <item>FDT      ::= FDTRow [;FDTRow]*</item>
+            <item>FDTRow   ::= Input =&gt; Output | Output &lt;= Input</item>
+            <item>Input    ::= ParameterName: Value [, Input]*</item>
+            <item>Output   ::= [ParameterName: Value]* {halt|stop|void|nothing|Value}</item>
+            <item>Value    ::= true | false | null | notnull | canbenull</item>
+            </list>
+            If method has single input parameter, it's name could be omitted.<br/>
+            Using <c>halt</c> (or <c>void</c>/<c>nothing</c>, which is the same)
+            for method output means that the methos doesn't return normally.<br/>
+            <c>canbenull</c> annotation is only applicable for output parameters.<br/>
+            You can use multiple <c>[ContractAnnotation]</c> for each FDT row,
+            or use single attribute with rows separated by semicolon.<br/>
+            </syntax>
+            <examples><list>
+            <item><code>
+            [ContractAnnotation("=> halt")]
+            public void TerminationMethod()
+            </code></item>
+            <item><code>
+            [ContractAnnotation("halt &lt;= condition: false")]
+            public void Assert(bool condition, string text) // regular assertion method
+            </code></item>
+            <item><code>
+            [ContractAnnotation("s:null => true")]
+            public bool IsNullOrEmpty(string s) // string.IsNullOrEmpty()
+            </code></item>
+            <item><code>
+            // A method that returns null if the parameter is null,
+            // and not null if the parameter is not null
+            [ContractAnnotation("null => null; notnull => notnull")]
+            public object Transform(object data)
+            </code></item>
+            <item><code>
+            [ContractAnnotation("s:null=>false; =>true,result:notnull; =>false, result:null")]
+            public bool TryParse(string s, out Person result)
+            </code></item>
+            </list></examples>
+        </member>
+        <member name="T:JetBrains.Annotations.LocalizationRequiredAttribute">
+            <summary>
+            Indicates that marked element should be localized or not.
+            </summary>
+            <example><code>
+            [LocalizationRequiredAttribute(true)]
+            public class Foo {
+              private string str = "my string"; // Warning: Localizable string
+            }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.CannotApplyEqualityOperatorAttribute">
+            <summary>
+            Indicates that the value of the marked type (or its derivatives)
+            cannot be compared using '==' or '!=' operators and <c>Equals()</c>
+            should be used instead. However, using '==' or '!=' for comparison
+            with <c>null</c> is always permitted.
+            </summary>
+            <example><code>
+            [CannotApplyEqualityOperator]
+            class NoEquality { }
+            class UsesNoEquality {
+              public void Test() {
+                var ca1 = new NoEquality();
+                var ca2 = new NoEquality();
+                if (ca1 != null) { // OK
+                  bool condition = ca1 == ca2; // Warning
+                }
+              }
+            }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.BaseTypeRequiredAttribute">
+            <summary>
+            When applied to a target attribute, specifies a requirement for any type marked
+            with the target attribute to implement or inherit specific type or types.
+            </summary>
+            <example><code>
+            [BaseTypeRequired(typeof(IComponent)] // Specify requirement
+            public class ComponentAttribute : Attribute { }
+            [Component] // ComponentAttribute requires implementing IComponent interface
+            public class MyComponent : IComponent { }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.UsedImplicitlyAttribute">
+            <summary>
+            Indicates that the marked symbol is used implicitly (e.g. via reflection, in external library),
+            so this symbol will not be marked as unused (as well as by other usage inspections).
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.MeansImplicitUseAttribute">
+            <summary>
+            Should be used on attributes and causes ReSharper to not mark symbols marked with such attributes
+            as unused (as well as by other usage inspections)
+            </summary>
+        </member>
+        <member name="F:JetBrains.Annotations.ImplicitUseKindFlags.Access">
+            <summary>Only entity marked with attribute considered used.</summary>
+        </member>
+        <member name="F:JetBrains.Annotations.ImplicitUseKindFlags.Assign">
+            <summary>Indicates implicit assignment to a member.</summary>
+        </member>
+        <member name="F:JetBrains.Annotations.ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature">
+            <summary>
+            Indicates implicit instantiation of a type with fixed constructor signature.
+            That means any unused constructor parameters won't be reported as such.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Annotations.ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature">
+            <summary>Indicates implicit instantiation of a type.</summary>
+        </member>
+        <member name="T:JetBrains.Annotations.ImplicitUseTargetFlags">
+            <summary>
+            Specify what is considered used implicitly when marked
+            with <see cref="T:JetBrains.Annotations.MeansImplicitUseAttribute"/> or <see cref="T:JetBrains.Annotations.UsedImplicitlyAttribute"/>.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Annotations.ImplicitUseTargetFlags.Members">
+            <summary>Members of entity marked with attribute are considered used.</summary>
+        </member>
+        <member name="F:JetBrains.Annotations.ImplicitUseTargetFlags.WithMembers">
+            <summary>Entity marked with attribute and all its members considered used.</summary>
+        </member>
+        <member name="T:JetBrains.Annotations.PublicAPIAttribute">
+            <summary>
+            This attribute is intended to mark publicly available API
+            which should not be removed and so is treated as used.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.InstantHandleAttribute">
+            <summary>
+            Tells code analysis engine if the parameter is completely handled when the invoked method is on stack.
+            If the parameter is a delegate, indicates that delegate is executed while the method is executed.
+            If the parameter is an enumerable, indicates that it is enumerated while the method is executed.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.PureAttribute">
+            <summary>
+            Indicates that a method does not make any observable state changes.
+            The same as <c>System.Diagnostics.Contracts.PureAttribute</c>.
+            </summary>
+            <example><code>
+            [Pure] private int Multiply(int x, int y) { return x * y; }
+            public void Foo() {
+              const int a = 2, b = 2;
+              Multiply(a, b); // Waring: Return value of pure method is not used
+            }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.PathReferenceAttribute">
+            <summary>
+            Indicates that a parameter is a path to a file or a folder within a web project.
+            Path can be relative or absolute, starting from web root (~).
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.SourceTemplateAttribute">
+            <summary>
+            An extension method marked with this attribute is processed by ReSharper code completion
+            as a 'Source Template'. When extension method is completed over some expression, it's source code
+            is automatically expanded like a template at call site.
+            </summary>
+            <remarks>
+            Template method body can contain valid source code and/or special comments starting with '$'.
+            Text inside these comments is added as source code when the template is applied. Template parameters
+            can be used either as additional method parameters or as identifiers wrapped in two '$' signs.
+            Use the <see cref="T:JetBrains.Annotations.MacroAttribute"/> attribute to specify macros for parameters.
+            </remarks>
+            <example>
+            In this example, the 'forEach' method is a source template available over all values
+            of enumerable types, producing ordinary C# 'foreach' statement and placing caret inside block:
+            <code>
+            [SourceTemplate]
+            public static void forEach&lt;T&gt;(this IEnumerable&lt;T&gt; xs) {
+              foreach (var x in xs) {
+                 //$ $END$
+              }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="T:JetBrains.Annotations.MacroAttribute">
+            <summary>
+            Allows specifying a macro for a parameter of a <see cref="T:JetBrains.Annotations.SourceTemplateAttribute">source template</see>.
+            </summary>
+            <remarks>
+            You can apply the attribute on the whole method or on any of its additional parameters. The macro expression
+            is defined in the <see cref="P:JetBrains.Annotations.MacroAttribute.Expression"/> property. When applied on a method, the target
+            template parameter is defined in the <see cref="P:JetBrains.Annotations.MacroAttribute.Target"/> property. To apply the macro silently
+            for the parameter, set the <see cref="P:JetBrains.Annotations.MacroAttribute.Editable"/> property value = -1.
+            </remarks>
+            <example>
+            Applying the attribute on a source template method:
+            <code>
+            [SourceTemplate, Macro(Target = "item", Expression = "suggestVariableName()")]
+            public static void forEach&lt;T&gt;(this IEnumerable&lt;T&gt; collection) {
+              foreach (var item in collection) {
+                //$ $END$
+              }
+            }
+            </code>
+            Applying the attribute on a template method parameter:
+            <code>
+            [SourceTemplate]
+            public static void something(this Entity x, [Macro(Expression = "guid()", Editable = -1)] string newguid) {
+              /*$ var $x$Id = "$newguid$" + x.ToString();
+              x.DoSomething($x$Id); */
+            }
+            </code>
+            </example>
+        </member>
+        <member name="P:JetBrains.Annotations.MacroAttribute.Expression">
+            <summary>
+            Allows specifying a macro that will be executed for a <see cref="T:JetBrains.Annotations.SourceTemplateAttribute">source template</see>
+            parameter when the template is expanded.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Annotations.MacroAttribute.Editable">
+            <summary>
+            Allows specifying which occurrence of the target parameter becomes editable when the template is deployed.
+            </summary>
+            <remarks>
+            If the target parameter is used several times in the template, only one occurrence becomes editable;
+            other occurrences are changed synchronously. To specify the zero-based index of the editable occurrence,
+            use values >= 0. To make the parameter non-editable when the template is expanded, use -1.
+            </remarks>>
+        </member>
+        <member name="P:JetBrains.Annotations.MacroAttribute.Target">
+            <summary>
+            Identifies the target parameter of a <see cref="T:JetBrains.Annotations.SourceTemplateAttribute">source template</see> if the
+            <see cref="T:JetBrains.Annotations.MacroAttribute"/> is applied on a template method.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcActionAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
+            is an MVC action. If applied to a method, the MVC action name is calculated
+            implicitly from the context. Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)</c>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcAreaAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC area.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)</c>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcControllerAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter is
+            an MVC controller. If applied to a method, the MVC controller name is calculated
+            implicitly from the context. Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String, String)</c>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcMasterAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC Master. Use this attribute
+            for custom wrappers similar to <c>System.Web.Mvc.Controller.View(String, String)</c>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcModelTypeAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC model type. Use this attribute
+            for custom wrappers similar to <c>System.Web.Mvc.Controller.View(String, Object)</c>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcPartialViewAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter is an MVC
+            partial view. If applied to a method, the MVC partial view name is calculated implicitly
+            from the context. Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper, String)</c>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcSupressViewErrorAttribute">
+            <summary>
+            ASP.NET MVC attribute. Allows disabling inspections for MVC views within a class or a method.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcDisplayTemplateAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC display template.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.DisplayExtensions.DisplayForModel(HtmlHelper, String)</c>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcEditorTemplateAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC editor template.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.EditorExtensions.EditorForModel(HtmlHelper, String)</c>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcTemplateAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC template.
+            Use this attribute for custom wrappers similar to
+            <c>System.ComponentModel.DataAnnotations.UIHintAttribute(System.String)</c>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcViewAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
+            is an MVC view. If applied to a method, the MVC view name is calculated implicitly
+            from the context. Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Controller.View(Object)</c>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcActionSelectorAttribute">
+            <summary>
+            ASP.NET MVC attribute. When applied to a parameter of an attribute,
+            indicates that this parameter is an MVC action name.
+            </summary>
+            <example><code>
+            [ActionName("Foo")]
+            public ActionResult Login(string returnUrl) {
+              ViewBag.ReturnUrl = Url.Action("Foo"); // OK
+              return RedirectToAction("Bar"); // Error: Cannot resolve action
+            }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.RazorSectionAttribute">
+            <summary>
+            Razor attribute. Indicates that a parameter or a method is a Razor section.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.WebPages.WebPageBase.RenderSection(String)</c>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.CollectionAccessAttribute">
+            <summary>
+            Indicates how method invocation affects content of the collection.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Annotations.CollectionAccessType.None">
+            <summary>Method does not use or modify content of the collection.</summary>
+        </member>
+        <member name="F:JetBrains.Annotations.CollectionAccessType.Read">
+            <summary>Method only reads content of the collection but does not modify it.</summary>
+        </member>
+        <member name="F:JetBrains.Annotations.CollectionAccessType.ModifyExistingContent">
+            <summary>Method can change content of the collection but does not add new elements.</summary>
+        </member>
+        <member name="F:JetBrains.Annotations.CollectionAccessType.UpdatedContent">
+            <summary>Method can add new elements to the collection.</summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AssertionMethodAttribute">
+            <summary>
+            Indicates that the marked method is assertion method, i.e. it halts control flow if
+            one of the conditions is satisfied. To set the condition, mark one of the parameters with
+            <see cref="T:JetBrains.Annotations.AssertionConditionAttribute"/> attribute.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AssertionConditionAttribute">
+            <summary>
+            Indicates the condition parameter of the assertion method. The method itself should be
+            marked by <see cref="T:JetBrains.Annotations.AssertionMethodAttribute"/> attribute. The mandatory argument of
+            the attribute is the assertion type.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AssertionConditionType">
+            <summary>
+            Specifies assertion type. If the assertion method argument satisfies the condition,
+            then the execution continues. Otherwise, execution is assumed to be halted.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Annotations.AssertionConditionType.IS_TRUE">
+            <summary>Marked parameter should be evaluated to true.</summary>
+        </member>
+        <member name="F:JetBrains.Annotations.AssertionConditionType.IS_FALSE">
+            <summary>Marked parameter should be evaluated to false.</summary>
+        </member>
+        <member name="F:JetBrains.Annotations.AssertionConditionType.IS_NULL">
+            <summary>Marked parameter should be evaluated to null value.</summary>
+        </member>
+        <member name="F:JetBrains.Annotations.AssertionConditionType.IS_NOT_NULL">
+            <summary>Marked parameter should be evaluated to not null value.</summary>
+        </member>
+        <member name="T:JetBrains.Annotations.TerminatesProgramAttribute">
+            <summary>
+            Indicates that the marked method unconditionally terminates control flow execution.
+            For example, it could unconditionally throw exception.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.LinqTunnelAttribute">
+            <summary>
+            Indicates that method is pure LINQ method, with postponed enumeration (like Enumerable.Select,
+            .Where). This annotation allows inference of [InstantHandle] annotation for parameters
+            of delegate type by analyzing LINQ method chains.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.NoEnumerationAttribute">
+            <summary>
+            Indicates that IEnumerable, passed as parameter, is not enumerated.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.RegexPatternAttribute">
+            <summary>
+            Indicates that parameter is regular expression pattern.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.XamlItemsControlAttribute">
+            <summary>
+            XAML attribute. Indicates the type that has <c>ItemsSource</c> property and should be treated
+            as <c>ItemsControl</c>-derived type, to enable inner items <c>DataContext</c> type resolve.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.XamlItemBindingOfItemsControlAttribute">
+            <summary>
+            XAML attibute. Indicates the property of some <c>BindingBase</c>-derived type, that
+            is used to bind some item of <c>ItemsControl</c>-derived type. This annotation will
+            enable the <c>DataContext</c> type resolve for XAML bindings for such properties.
+            </summary>
+            <remarks>
+            Property should have the tree ancestor of the <c>ItemsControl</c> type or
+            marked with the <see cref="T:JetBrains.Annotations.XamlItemsControlAttribute"/> attribute.
+            </remarks>
+        </member>
+        <member name="T:JetBrains.Annotations.NoReorder">
+            <summary>
+            Prevents the Member Reordering feature from tossing members of the marked class.
+            </summary>
+            <remarks>
+            The attribute must be mentioned in your member reordering patterns
+            </remarks>
+        </member>
+    </members>
+</doc>
