@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>@sudhanshutheone</authors>
+    <owners>Sudhanshu Mishra</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/mishrsud/Smi.Encryption</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>A library to simplify calling DPAPI and MachineKey based encryption and decryption.</releaseNotes>
+    <summary>A library to simplify calling DPAPI and MachineKey based encryption and decryption</summary>
+    <copyright>Copyright 2016</copyright>
+    <tags>encryption dpapi machinekey</tags>
+  </metadata>
+</package>

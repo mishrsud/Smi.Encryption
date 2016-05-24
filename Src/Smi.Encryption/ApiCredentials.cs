@@ -1,6 +1,9 @@
-﻿namespace Smi.Encryption
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Smi.Encryption
 {
 	/// <summary> Holds API Key and secret </summary>
+	[ExcludeFromCodeCoverage]
 	public struct ApiCredentials
 	{
 		/// <summary> Gets the API key. </summary>

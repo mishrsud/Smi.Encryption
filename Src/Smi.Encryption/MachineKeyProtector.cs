@@ -8,11 +8,17 @@ namespace Smi.Encryption
 	/// <summary> Encrypts and decrypts text based on the Machine key </summary>
 	public class MachineKeyProtector
 	{
-		/// <summary> Protects the specified plain text. </summary>
-		/// <param name="plainText">The plain text.</param>
-		/// <param name="purpose">The purpose.</param>
-		/// <returns> string Encrypted based on machine key</returns>
-		public string Protect(string plainText, string purpose)
+        /// <summary>
+        /// Protects the specified plain text.
+        /// </summary>
+        /// <param name="plainText">The plain text.</param>
+        /// <param name="purpose">The purpose. The same string must be supplied when calling the Unprotect method to decipher the ciphertext</param>
+        /// <returns>
+        /// string Encrypted based on machine key
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// </exception>
+        public string Protect(string plainText, string purpose)
 		{
 			if (string.IsNullOrWhiteSpace(plainText)) throw new ArgumentNullException(nameof(plainText));
 			if (string.IsNullOrWhiteSpace(purpose)) throw new ArgumentNullException(nameof(purpose));
@@ -23,11 +29,17 @@ namespace Smi.Encryption
 			return protectedText;
 		}
 
-		/// <summary> Unprotects the specified protected text. </summary>
-		/// <param name="protectedText">The protected text.</param>
-		/// <param name="purpose">The purpose.</param>
-		/// <returns>Plain text decrypted using machine key OR null</returns>
-		public string Unprotect(string protectedText, string purpose)
+        /// <summary>
+        /// Unprotects the specified protected text.
+        /// </summary>
+        /// <param name="protectedText">The protected text.</param>
+        /// <param name="purpose">The purpose.</param>
+        /// <returns>
+        /// Plain text decrypted using machine key OR null
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// </exception>
+        public string Unprotect(string protectedText, string purpose)
 		{
 			if (string.IsNullOrWhiteSpace(protectedText)) throw new ArgumentNullException(nameof(protectedText));
 			if (string.IsNullOrWhiteSpace(purpose)) throw new ArgumentNullException(nameof(purpose));

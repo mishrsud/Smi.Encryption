@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Smi.Encryption")]
-[assembly: AssemblyDescription("Provides an API to encrypt/decrypt using DPAPI and MachineKey encryption")]
+[assembly: AssemblyTitle("Smi.Encryption.Test")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Smi.Encryption")]
-[assembly: AssemblyCopyright("Copyright © Sudhanshu Mishra 2016")]
+[assembly: AssemblyCompany("HP Inc.")]
+[assembly: AssemblyProduct("Smi.Encryption.Test")]
+[assembly: AssemblyCopyright("Copyright © HP Inc. 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b642f6d0-31ff-4487-b5a1-8c97eb8cb9ac")]
+[assembly: Guid("c54598b5-59b5-4119-b6fb-a1501cc9a2de")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -34,4 +34,3 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: AssemblyInformationalVersion("1.0.0")]

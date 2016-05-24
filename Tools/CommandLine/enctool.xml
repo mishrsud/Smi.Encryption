@@ -18,21 +18,11 @@
             <returns>
             Return 0 is everything was right, an negative error code otherwise.
             </returns>
-            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:Smi.Encryption.CommandLine.CredCommand.GetBase64Header(System.String,System.String)">
             <summary> Gets the Base64 encoded header. </summary>
             <param name="apiKey">The API key.</param>
             <param name="apiSecret">The API secret.</param>
-        </member>
-        <member name="M:Smi.Encryption.CommandLine.CredCommand.GetSqlTemplate">
-            <summary> Gets the SQL template from the configured template file. </summary>
-            <remarks>
-            location of template file comes from app.config appSettings key command.templateFileName
-            If this key is not found, we default to a file called ApiCredentialInsert.sql placed in the running 
-            directory of the exe
-            </remarks>
-            <returns></returns>
         </member>
         <member name="M:Smi.Encryption.CommandLine.CredCommand.InitializeAppSettings">
             <summary> Initializes the application settings. </summary>

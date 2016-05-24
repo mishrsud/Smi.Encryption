@@ -24,18 +24,15 @@ namespace Smi.Encryption.CommandLine
 		{
 			_appSettingsCollection = InitializeAppSettings();
 		}
-		
-		/// <summary> Creates a set of API Key and Secret on each call. </summary>
-		/// <returns>
-		/// Return 0 is everything was right, an negative error code otherwise.
-		/// </returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		[Description("Creates a set of API Key and Secret on each call")]
+
+	    /// <summary> Creates a set of API Key and Secret on each call. </summary>
+	    /// <returns>
+	    /// Return 0 is everything was right, an negative error code otherwise.
+	    /// </returns>
+	    [Description("Creates a set of API Key and Secret on each call")]
 		protected override int ExecuteCommand()
 		{
 			var credentials = _apiCredentialManager.GenerateAppCredentials();
-			string sqlTemplateText = GetSqlTemplate();
-			sqlTemplateText = sqlTemplateText.Replace("{key}", credentials.ApiKey).Replace("{secret}", credentials.ApiSecret);
 
 			StringBuilder builder = new StringBuilder();
 			builder.AppendLine($"API Key   : {credentials.ApiKey}");
@@ -45,9 +42,6 @@ namespace Smi.Encryption.CommandLine
 
 			Console.WriteLine("=========================================================================");
 			Console.WriteLine(builder.ToString());
-			Console.WriteLine("=========================================================================");
-			Console.WriteLine("SQL Script:");
-			Console.WriteLine(sqlTemplateText);
 			Console.WriteLine("=========================================================================");
 			Console.WriteLine("Authorization header: ");
 			Console.WriteLine(authHeader);
@@ -66,27 +60,6 @@ namespace Smi.Encryption.CommandLine
 			string header = Convert.ToBase64String(headerBytes);
 
 			return string.Concat("Basic ", header);
-		}
-
-		/// <summary> Gets the SQL template from the configured template file. </summary>
-		/// <remarks>
-		/// location of template file comes from app.config appSettings key command.templateFileName
-		/// If this key is not found, we default to a file called ApiCredentialInsert.sql placed in the running 
-		/// directory of the exe
-		/// </remarks>
-		/// <returns></returns>
-		private string GetSqlTemplate()
-		{
-			var templateLocation = _appSettingsCollection["command.templateFileName"];
-
-			if (!templateLocation.Contains(Path.VolumeSeparatorChar))
-			{
-				// this is an absolute filename, look for the file in the current running directory
-				templateLocation = Path.Combine(GetRunningDirectory(), templateLocation);
-			}
-
-			string templateText = File.ReadAllText(templateLocation);
-			return templateText;
 		}
 
 		/// <summary> Initializes the application settings. </summary>
