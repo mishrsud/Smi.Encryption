@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="createNuGet.bat" />
+    <None Include="Smi.Encryption.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
