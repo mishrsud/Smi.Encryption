@@ -25,3 +25,7 @@ Authorization header:
 Basic YWJiYzMyNDg0MzI3NGNmNjlmYjBmYWUzM2I4MzgyYTQ6QWVXcG1NcThrQnl1dlJ1eER6L0RReHB2aDU5b2ovZUlHL3lPRHkraTgxcz0=
 =========================================================================
 ```
+
+### Motivation and Inspiration ###
+
+Inspired in parts by this post from Jon Galloway: http://weblogs.asp.net/jongalloway/encrypting-passwords-in-a-net-app-config-file
